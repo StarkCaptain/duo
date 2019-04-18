@@ -3,7 +3,7 @@
   Creates a properly formated http request for the DUO Admin API
 
   .DESCRIPTION
-  This function will output a psobject that can be used with Invoke-RestMethod or Invoke-WebRequest. The function properly creates a sign
+  This function will output a psobject that can be used with Invoke-RestMethod or Invoke-WebRequest. The function properly creates a signed
   HMAC SHA1 request for the DUO Admin API
 
   .PARAMATER apiHost
