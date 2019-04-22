@@ -17,3 +17,18 @@ authenticated to the Duo Admin API
  ```
  
  # sync-duoAdmins.ps1
+
+This script will sync active directory groups to Duo for admin access. There are few assumptions I take in the script that you will probably need to take into account and modify the script further to fit your needs. 
+
+1. The script references active directory group names saved to the variable $duoAdminGroups. Each group name ends with the corresponding role that exists in Duo.
+```
+APP-DUO_Administrator maps to the Duo Administrator Role
+APP-DUO_HelpDesk maps to the Duo Help Desk Role
+
+$duoAdminGroups = 'APP-DUO_Administrator', 'APP-DUO_ApplicationManager', 'APP-DUO_Billing', 'APP-DUO_HelpDesk', 'APP-DUO_Readonly', 'APP-DUO_UserManager'
+```
+2. Based on the above group names I created a $roles variable to map the AD group name to the applicable Duo Role. You can easily modify this based on your needs. So for example the group ending withe HelpDesk maps to the actual role name 'Help Desk' in Duo, which will be required when making the API call
+```
+$roles = @{Billing = 'Billing'; Administrator = 'Administrator'; HelpDesk = 'Help Desk'; UserManager = 'User Manager'; Readonly = 'Read-only';  ApplicationManager = 'Application Manager'}
+```
+3. The $currentADGroupMembers variable gets the group membership of all the groups defined in the $duoAdminGroups variable 
