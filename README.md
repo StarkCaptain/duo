@@ -18,7 +18,13 @@ authenticated to the Duo Admin API
  
  # sync-duoAdmins.ps1
 
-This script will sync active directory groups to Duo for admin access. There are few assumptions I take in the script that you will probably need to take into account and modify the script further to fit your needs. 
+This script will sync active directory groups to Duo for admin access.
+
+- Gets members from Active Directory groups and creates new administrator users in Duo
+- Removes any administrator user not found in the active directory group from Duo
+- Updates a user's Duo Admin role if their Active Directory Group membership changes
+
+There are few assumptions I take in the script that you will probably need to take into account and modify the script further to fit your needs. 
 
 1. The script references active directory group names saved to the variable $duoAdminGroups. Each group name ends with the corresponding role that exists in Duo.
 ```
