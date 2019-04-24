@@ -23,6 +23,7 @@ This script will sync active directory groups to Duo for admin access.
 - Gets members from Active Directory groups and creates new administrator users in Duo
 - Removes any administrator user not found in the active directory group from Duo
 - Updates a user's Duo Admin role if their Active Directory Group membership changes
+- Assumes you are using SAML for administration access
 
 There are few assumptions I take in the script that you will probably need to take into account and modify the script further to fit your needs. 
 
