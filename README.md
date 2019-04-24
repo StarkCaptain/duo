@@ -31,4 +31,7 @@ $duoAdminGroups = 'APP-DUO_Administrator', 'APP-DUO_ApplicationManager', 'APP-DU
 ```
 $roles = @{Billing = 'Billing'; Administrator = 'Administrator'; HelpDesk = 'Help Desk'; UserManager = 'User Manager'; Readonly = 'Read-only';  ApplicationManager = 'Application Manager'}
 ```
-3. The $currentADGroupMembers variable gets the group membership of all the groups defined in the $duoAdminGroups variable 
+3. The $currentADGroupMembers variable gets the group membership of all the groups defined in the $duoAdminGroups variable. This function does a split operation based on the group naming convention I used for the $duoAdminGroups. The intent is get the Role name from the group name. You may need to update this if you use a different group naming convention. 
+```
+@{Name="Role"; Expression = {$($group.Name.split(',').split('_')[1])}
+```
