@@ -15,8 +15,11 @@ $excludedDuoUsers = 'duoadmins@yourdomain.com'
 $request = New-DuoRequest -apiHost $apiHost -apiKey $apiKey -apiSecret $apiSecret -apiEndpoint '/admin/v1/admins'
 $currentDuoAdmins = Invoke-RestMethod @request
 
-#Get a current list of users in the Active Directory Duo Groups, also map the duo role to ad group and return in the results
-$currentADGroupMembers = $( $duoAdminGroups | Get-ADGroupMember -Recursive | Get-ADUser -Properties DisplayName, mail, memberOf, telephoneNumber | Where Enabled -eq True | Select DisplayName, mail, SamAccountName, telephoneNumber, @{Name="Role"; Expression = {$($_.MemberOf | Where {$_ -like '*APP-Duo*' -and $_ -notLike '*APP-Duo_Users*'}).split(',').split('_')[1]}})
+#Get a current list of users in the Active Directory Duo Groups, map the group name to the Role for the user
+$currentADGroupMembers = $( $duoAdminGroups | Get-ADGroup -PipelineVariable group | 
+Get-ADGroupMember -Recursive -PipelineVariable member | % {
+    Get-ADUser $member.SamAccountName -Properties DisplayName, mail, telephoneNumber | Where Enabled -eq True | Select DisplayName, mail, SamAccountName, telephoneNumber, @{Name="Role"; Expression = {$($group.Name.split(',').split('_')[1])}}    
+})
 
 #Update Role Name from AD to Duo Role Name
 $currentADGroupMembers | % {$_.role = $roles.Item($_.role)}
@@ -54,7 +57,7 @@ ForEach ($userToCreate in $usersToCreate){
   
     Write-Verbose ('Creating User: {0} with the {1} role' -f $userToCreate.mail, $userToCreate.Role) -Verbose
 
-    If (!($userToCreate.telephoneNumber)){$userToCreate.telephoneNumber = '+1 (123) 456-7891'}
+    If (!($userToCreate.telephoneNumber)){$userToCreate.telephoneNumber = '+1 (206) 272-7969'}
 
     #Create a password, this won't be used but is required for the user creation
     $pass = [System.Web.Security.Membership]::GeneratePassword(12,10)
