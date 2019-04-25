@@ -57,7 +57,7 @@ ForEach ($userToCreate in $usersToCreate){
   
     Write-Verbose ('Creating User: {0} with the {1} role' -f $userToCreate.mail, $userToCreate.Role) -Verbose
 
-    If (!($userToCreate.telephoneNumber)){$userToCreate.telephoneNumber = '+1 (206) 272-7969'}
+    If (!($userToCreate.telephoneNumber)){$userToCreate.telephoneNumber = '+1 (123) 456-7891'}
 
     #Create a password, this won't be used but is required for the user creation
     $pass = [System.Web.Security.Membership]::GeneratePassword(12,10)
