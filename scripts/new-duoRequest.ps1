@@ -89,7 +89,7 @@ function New-duoRequest(){
         URI         = ('https://{0}{1}' -f $apiHost, $apiEndpoint)
         Headers     = @{
             "X-Duo-Date"    = $Date
-            "Authorization" = "Basic: $authHeader"
+            "Authorization" = "Basic $authHeader"
         }
         Body = $requestParams
         Method      = $requestMethod
